@@ -6,11 +6,15 @@ def categories(request):
         'categories': Category.objects.all()
     }
 
+def category_list(request, category_slug):
+    category = get_object_or_404(Category, slug=category_slug)
+    products = Product.objects.filter(category=category)
+    return render(request,'store/products/category.html', {'category':category, 'products':products})
 
 def all_products(request):
     """View to get/Retrive the data from the database."""
     product = Product.objects.all()
-    return render(request, 'store/home.html', {'product': product})
+    return render(request, 'store/home.html', {'products': product})
 
 def product_details(request, slug):
     product = get_object_or_404(Product, slug=slug, in_stock=True)
